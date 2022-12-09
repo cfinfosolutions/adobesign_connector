@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_adobesign_documents_user,access.adobesign.documents.user,adobesign_connector.model_adobesign_documents,base.group_user,1,1,1,1
+access_adobesign_config_settings_user,access.adobesign.config.settings.user,adobesign_connector.model_adobesign_config_settings,base.group_user,1,1,1,1

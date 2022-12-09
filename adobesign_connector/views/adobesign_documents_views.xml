@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_adobesign_documents_form" model="ir.ui.view">
+        <field name="name">adobesign.documents.form</field>
+        <field name="model">adobesign.documents</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <header>
+                    <button 
+                        name="update_status" 
+                        type="object" 
+                        class="btn-primary" 
+                        string=" Update Status"
+                        icon="/adobesign_connector/static/description/adobesign.png" />
+                    <field name="status" widget="statusbar" statusbar_visible="not_sent, sent, in_progress, completed, declined"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="user_id" readonly="1"/>
+                            <field name="agreement_id" readonly="1" invisible="1"/>
+                            <field name="move_id" readonly="1" attrs="{'invisible': [('move_id', '=', False)]}" options="{'no_create': True, 'no_open': False}"/>
+                            <field name="order_id" readonly="1" attrs="{'invisible': [('order_id', '=', False)]}" options="{'no_create': True, 'no_open': False}"/>
+                        </group>
+                        <group>
+                            <field name="completed_document_name" invisible="1"/>
+                            <field name="completed_document" widget="binary" readonly="1"
+                                filename="completed_document_name" string="Signed Document"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_adobesign_documents_tree" model="ir.ui.view">
+        <field name="name">adobesign.documents.tree</field>
+        <field name="model">adobesign.documents</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_adobesign_documents" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">adobesign.documents</field>
+        <field name="view_mode">form,tree</field>
+        <field name="view_id" ref="view_adobesign_documents_tree" />
+    </record>
+
+    <menuitem 
+        name="Adobe Sign"
+        groups="adobesign_connector.group_adobesign_user,adobesign_connector.group_adobesign_manager"
+        id="menu_adobesign"
+        web_icon="adobesign_connector,static/description/icon.png" />
+
+    <menuitem 
+        name="Documents" 
+        groups="adobesign_connector.group_adobesign_user,adobesign_connector.group_adobesign_manager"
+        id="menu_adobesign_documents"
+        parent="adobesign_connector.menu_adobesign"
+        action="action_adobesign_documents"
+        sequence="1"/>
+
+</odoo>

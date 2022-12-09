@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_form_adobesign" model="ir.ui.view">
+            <field name="name">account.move.form.adobesign</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='preview_invoice']" position="after">
+                    <button 
+                        name="get_signature" 
+                        type="object" 
+                        class="btn-primary" 
+                        string=" Get Signature" 
+                        attrs="{'invisible':[('state','in',('cancel'))]}" 
+                        icon="/adobesign_connector/static/description/adobesign.png" />
+                </xpath>
+                <xpath expr="//page[@name='other_info']" position="after">
+                    <page string="Adobe Sign" name="docu_sign">
+                        <field name="adobesign_documents_line_ids" readonly="1">
+                            <tree>
+                                <field name="name" />
+                                <field name="email" />
+                                <field name="status"/>
+                            </tree>
+                            <form>
+                                <header>
+                                    <button 
+                                        name="update_status" 
+                                        type="object" 
+                                        class="btn-primary" 
+                                        string=" Update Status"
+                                        icon="/adobesign_connector/static/description/adobesign.png" />
+                                    <field name="status" widget="statusbar" statusbar_visible="not_sent, sent, in_progress, completed, declined"/>
+                                </header>
+                                <group>
+                                    <group>
+                                        <field name="name" />
+                                        <field name="email" />
+                                    </group>
+                                    <group>
+                                        <field name="completed_document_name" invisible="1"/>
+                                        <field name="completed_document" widget="binary" 
+                                            filename="completed_document_name" string="File"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

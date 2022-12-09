@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="ir_cron_adobesign_refreshtoken_action" model="ir.cron">
+        <field name="name">adobesign: Refresh Token</field>
+        <field name="model_id" ref="model_adobesign_config_settings"/>
+        <field name="state">code</field>
+        <field name="code">model.validate_token_cron()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="doall" eval="False"/>
+    </record> -->
+
+    <record id="ir_cron_adobesign_status_update_action" model="ir.cron">
+        <field name="name">adobesign: Update Document Status</field>
+        <field name="model_id" ref="model_adobesign_documents"/>
+        <field name="state">code</field>
+        <field name="code">model.update_status_cron()</field>
+        <field name="interval_number">60</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+</odoo>

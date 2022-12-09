@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_adobesign_config_settings_form" model="ir.ui.view">
+        <field name="name">view.adobesign.config.settings.form</field>
+        <field name="model">adobesign.config.settings</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="add_authorization_request" type="object" class="btn-primary" string="Authorization Request"
+                        attrs="{'invisible': [('state', 'not in', ['draft','failed'])]}"/>
+                    <button name="set_to_draft" type="object" class="btn-primary" string="Set to Draft" 
+                        attrs="{'invisible': [('state', 'not in', ['authorized','failed'])]}"/>
+                    <button name="refresh_token" type="object" class="btn-primary" string="Refresh Token" 
+                        groups="base.group_no_one"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,authorized,failed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="as_lastcall" invisible="1"/>
+                            <field name="name" required="1" />                            
+                            <field name="as_authorization_approved" force_save="1" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="API Information">
+                        <group>
+                            <field name="as_region" placeholder="e.g. na1, na2, eu1" required="1"/> 
+                            <field name="as_client_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="as_authorization_server" readonly="1" />                            
+                            <field name="as_client_secret" required="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>    
+                            <field name="as_authorization_url" required="0" invisible="1" widget="url"/>                                                    
+                            <field name="as_redirect_uri" required="1" widget="url"/>                            
+                        </group>
+                    </group>
+                    <group string="Token Information" invisible="1">
+                        <group colspan="4">   
+                            <field name="as_authorization_url"/>   
+                            <field name="as_access_token"/>
+                            <field name="as_refresh_token"/>
+                            <field name="as_authorization_code"/>
+                            <field name="as_api_access_point"/>
+                            <field name="as_web_access_point"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_adobesign_config_settings_tree" model="ir.ui.view">
+        <field name="name">view.adobesign.config.settings.tree</field>
+        <field name="model">adobesign.config.settings</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="active" invisible="1" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_adobesign_config_settings_search" model="ir.ui.view">
+        <field name="name">view.adobesign.config.settings.search</field>
+        <field name="model">adobesign.config.settings</field>
+        <field name="arch" type="xml">
+            <search string="Jobs">
+                <field name="name" string="Description"/>
+                <field name="as_region" string="Environment"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="state" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Environment" name="as_region" domain="[]" context="{'group_by': 'as_region'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_adobesign_config_settings" model="ir.actions.act_window">
+        <field name="name">Configuration</field>
+        <field name="res_model">adobesign.config.settings</field>
+        <field name="view_mode">form,tree</field>
+        <field name="view_id" ref="view_adobesign_config_settings_tree" />
+    </record>
+    
+    <menuitem 
+        name="Configuration" 
+        groups="adobesign_connector.group_adobesign_manager"
+        id="menu_adobesign_config"
+        parent="adobesign_connector.menu_adobesign"
+        action="action_adobesign_config_settings"
+        sequence="2"/>
+</odoo>
