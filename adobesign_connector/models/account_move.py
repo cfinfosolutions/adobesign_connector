@@ -18,8 +18,8 @@ class AccountMove(models.Model):
 
     def get_report_file(self):
         file = None
-        for rec in self:            
-            report = self.env['ir.actions.report']._render_qweb_pdf("account.account_invoices", rec.id)
+        for rec in self:
+            report = self.env.ref('account.account_invoices')._render_qweb_pdf([rec.id])
             if report:
                 datas =base64.b64encode(report[0])
                 attachment = self.env['ir.attachment'].create({

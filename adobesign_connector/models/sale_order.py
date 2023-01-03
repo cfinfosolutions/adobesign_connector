@@ -19,7 +19,7 @@ class SaleOrder(models.Model):
     def get_report_file(self):
         file = None
         for rec in self:            
-            report = self.env['ir.actions.report']._render_qweb_pdf("sale.action_report_saleorder", rec.id)
+            report = self.env.ref('sale.action_report_saleorder')._render_qweb_pdf([rec.id])
             if report:
                 datas =base64.b64encode(report[0])
                 attachment = self.env['ir.attachment'].create({

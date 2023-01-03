@@ -22,7 +22,7 @@ class adobesignConfigSettings(models.Model):
     name = fields.Char('Description')
     active = fields.Boolean(default=True)
     as_region = fields.Char(string='Region',help="only take the region portion, ie. na1, na2, eu1 etc")
-    as_authorization_server = fields.Char(string="Base URL")
+    as_authorization_server = fields.Char(string="Base URL", compute="_compute_authorization_server", store=True)
     as_client_id = fields.Char('Client Id')
     as_client_secret = fields.Char('Client Secret')
     as_redirect_uri = fields.Char('Redirect URI(HTTPS)')
@@ -50,6 +50,14 @@ class adobesignConfigSettings(models.Model):
                 'state' : 'draft',
             })
     
+    @api.depends('as_region')
+    def _compute_authorization_server(self):
+        for rec in self:
+            if rec.as_region:
+                rec.as_authorization_server = f'secure.{rec.as_region}.adobesign.com'
+            else:
+                rec.as_authorization_server = 'secure.adobesign.com'
+
     @api.constrains('active')
     def _check_is_selected(self):
         active = self.env['adobesign.config.settings'].search_count([('active', '=', True)])
@@ -65,14 +73,6 @@ class adobesignConfigSettings(models.Model):
             as_redirect_uri = redirect_uri
         )
         return rec
-
-    @api.onchange('as_region')
-    def _onchange_user(self):
-        for rec in self:
-            if rec.as_region:
-                rec.as_authorization_server = f'secure.{rec.as_region}.adobesign.com'
-            else:
-                rec.as_authorization_server = 'secure.adobesign.com'
 
     def get_consent(self):
         for rec in self:
