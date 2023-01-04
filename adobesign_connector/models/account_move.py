@@ -5,7 +5,7 @@ import requests
 import json
 
 from odoo.tools import config
-from odoo import api, fields, models, tools, _, Command
+from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
 
 import logging

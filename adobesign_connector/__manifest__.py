@@ -20,7 +20,7 @@
         This module allows the odoo users Integration with Adobe Sign. We will send emails to users asking them to 
         sign the document (Invoice and Sale Order) after setting up the adobesign email. Use the Adobe Sign to retrieve the document.
         """,
-    "version": "15.0.1",
+    "version": "14.0.1",
     "description": """
         This module allows the odoo users Integration with Adobe Sign. We will send emails to users asking them to 
         sign the document (Invoice and Sale Order) after setting up the Adobe Sign email. Use the Adobe Sign to retrieve the document.
